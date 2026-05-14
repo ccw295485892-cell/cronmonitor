@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block title %}Pricing — CronMonitor{% endblock %}
+{% block content %}
+<div class="text-center py-8">
+    <h1 class="text-3xl font-bold mb-4">Simple, transparent pricing</h1>
+    <p class="text-gray-400 mb-10">Start free. Upgrade when you grow.</p>
+</div>
+<div class="grid grid-cols-3 gap-6 max-w-4xl mx-auto">
+    <div class="bg-gray-900 p-6 rounded-lg border border-gray-800">
+        <h3 class="text-lg font-bold mb-1">Hobby</h3>
+        <div class="text-3xl font-bold mb-4">$7<span class="text-gray-400 text-lg">/mo</span></div>
+        <ul class="text-sm text-gray-400 space-y-2 mb-6">
+            <li>✓ 50 monitors</li>
+            <li>✓ Email alerts</li>
+            <li>✓ 5-min intervals</li>
+            <li>✓ 30-day history</li>
+        </ul>
+        <a href="#" onclick="checkout('hobby')" class="block text-center border border-emerald-500 text-emerald-400 py-2 rounded font-medium text-sm hover:bg-emerald-500/10">Subscribe $7/mo</a>
+    </div>
+    <div class="bg-emerald-900/30 p-6 rounded-lg border border-emerald-700 relative">
+        <span class="absolute -top-3 left-1/2 -translate-x-1/2 bg-emerald-600 text-white text-xs px-2 py-0.5 rounded-full">Most Popular</span>
+        <h3 class="text-lg font-bold mb-1">Pro</h3>
+        <div class="text-3xl font-bold mb-4">$19<span class="text-gray-400 text-lg">/mo</span></div>
+        <ul class="text-sm text-gray-400 space-y-2 mb-6">
+            <li>✓ 200 monitors</li>
+            <li>✓ Email + Webhook alerts</li>
+            <li>✓ 1-min intervals</li>
+            <li>✓ Team (3 seats)</li>
+            <li>✓ 90-day history</li>
+        </ul>
+        <a href="#" onclick="checkout('pro')" class="block text-center bg-emerald-600 text-white py-2 rounded font-medium text-sm hover:bg-emerald-500">Subscribe $19/mo</a>
+    </div>
+    <div class="bg-gray-900 p-6 rounded-lg border border-gray-800">
+        <h3 class="text-lg font-bold mb-1">Business</h3>
+        <div class="text-3xl font-bold mb-4">$49<span class="text-gray-400 text-lg">/mo</span></div>
+        <ul class="text-sm text-gray-400 space-y-2 mb-6">
+            <li>✓ Unlimited monitors</li>
+            <li>✓ Priority alerts</li>
+            <li>✓ 30-sec intervals</li>
+            <li>✓ Unlimited team</li>
+            <li>✓ White-label status page</li>
+            <li>✓ API access</li>
+        </ul>
+        <a href="#" onclick="checkout('business')" class="block text-center border border-emerald-500 text-emerald-400 py-2 rounded font-medium text-sm hover:bg-emerald-500/10">Subscribe $49/mo</a>
+    </div>
+</div>
+<div class="mt-6 text-center text-sm text-gray-500">
+    Payments handled securely by <span class="text-gray-400">Lemon Squeezy</span>. Cancel anytime.
+</div>
+<script>
+function checkout(plan) {
+    const store = 'cronmonitor';
+    const variants = { hobby: 'VAR_HOBBY_ID', pro: 'VAR_PRO_ID', business: 'VAR_BUSINESS_ID' };
+    const url = 'https://' + store + '.lemonsqueezy.com/checkout/buy/' + variants[plan];
+    // Store redirect target for post-purchase return
+    window.location.href = url;
+}
+</script>
+{% endblock %}

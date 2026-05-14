@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block title %}Monitor — CronMonitor{% endblock %}
+{% block content %}
+<div class="flex items-center gap-3 mb-6">
+    <a href="/dashboard" class="text-gray-400 hover:text-white">&larr; Back</a>
+    <h1 class="text-2xl font-bold" id="mon-name">Loading...</h1>
+    <span id="mon-status" class="text-xs px-2 py-1 rounded"></span>
+</div>
+<div class="grid grid-cols-2 gap-4 mb-6">
+    <div class="bg-gray-900 p-4 rounded-lg">
+        <div class="text-gray-400 text-sm">Ping URL</div>
+        <code id="mon-url" class="text-yellow-400 text-sm break-all"></code>
+    </div>
+    <div class="bg-gray-900 p-4 rounded-lg">
+        <div class="text-gray-400 text-sm">Schedule / Grace</div>
+        <div id="mon-schedule" class="text-sm"></div>
+    </div>
+</div>
+<div class="bg-gray-900 p-4 rounded-lg">
+    <h3 class="font-semibold mb-3">Recent Pings</h3>
+    <div id="pings" class="text-sm text-gray-400"></div>
+</div>
+<div class="bg-gray-900 p-4 rounded-lg mt-4">
+    <h3 class="font-semibold mb-3">Alert Log</h3>
+    <div id="alerts" class="text-sm text-gray-400"></div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script>
+const token = localStorage.getItem('token');
+if (!token) location.href = '/login';
+const headers = { 'Authorization': `Bearer ${token}` };
+const id = {{ monitor_id }};
+
+async function load() {
+    const [mRes, pRes, aRes] = await Promise.all([
+        fetch('/api/monitors/' + id, {headers}),
+        fetch('/api/monitors/' + id + '/pings', {headers}),
+        fetch('/api/monitors/' + id + '/alerts', {headers})
+    ]);
+    const mon = await mRes.json();
+    const pings = await pRes.json();
+    const alerts = await aRes.json();
+    document.getElementById('mon-name').textContent = mon.name;
+    document.getElementById('mon-status').textContent = mon.status;
+    document.getElementById('mon-status').className = 'text-xs px-2 py-1 rounded ' +
+        (mon.status==='ok'?'bg-green-900 text-green-400':mon.status==='late'?'bg-yellow-900 text-yellow-400':'bg-red-900 text-red-400');
+    document.getElementById('mon-url').textContent = location.origin + '/api/monitors/ping/' + mon.slug;
+    document.getElementById('mon-schedule').textContent = mon.schedule + ' | Grace: ' + mon.grace_minutes + 'min';
+    document.getElementById('pings').innerHTML = pings.map(p =>
+        `<div>${new Date(p.timestamp+'Z').toLocaleString()} — ${p.ip||'?'}</div>`
+    ).join('') || 'No pings yet.';
+    document.getElementById('alerts').innerHTML = alerts.map(a =>
+        `<div class="${a.alert_type==='missed_ping'?'text-red-400':'text-green-400'}">${new Date(a.sent_at+'Z').toLocaleString()} — ${a.message||''}</div>`
+    ).join('') || 'No alerts.';
+}
+
+load();
+setInterval(load, 15000);
+</script>
+{% endblock %}

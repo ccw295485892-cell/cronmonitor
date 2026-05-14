@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}CronMonitor{% endblock %}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='28' font-size='28'>⚡</text></svg>">
+</head>
+<body class="bg-gray-950 text-gray-100 min-h-screen">
+    <nav class="border-b border-gray-800 px-6 py-3 flex items-center justify-between">
+        <a href="/" class="text-xl font-bold tracking-tight">⚡ CronMonitor</a>
+        <div class="flex gap-4 items-center text-sm">
+            <a href="/pricing" class="text-gray-400 hover:text-white">Pricing</a>
+            <span id="nav-auth"></span>
+        </div>
+    </nav>
+    <main class="max-w-5xl mx-auto px-4 py-8">
+        {% block content %}{% endblock %}
+    </main>
+    <script>
+    const token = localStorage.getItem('token');
+    const navAuth = document.getElementById('nav-auth');
+    if (token) {
+        navAuth.innerHTML = '<a href="/dashboard" class="text-gray-400 hover:text-white">Dashboard</a>';
+    } else {
+        navAuth.innerHTML = '<a href="/login" class="text-gray-400 hover:text-white">Login</a> <a href="/register" class="bg-emerald-600 text-white px-3 py-1 rounded hover:bg-emerald-500">Sign Up</a>';
+    }
+    </script>
+    {% block scripts %}{% endblock %}
+</body>
+</html>

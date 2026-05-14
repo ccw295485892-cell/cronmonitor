@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}CronMonitor — Simple Cron Job Monitoring{% endblock %}
+{% block content %}
+<div class="text-center py-16">
+    <h1 class="text-5xl font-bold mb-4">Your cron jobs.<br>We watch them.</h1>
+    <p class="text-xl text-gray-400 mb-8 max-w-xl mx-auto">Ping-based monitoring for cron jobs, scheduled tasks, and background workers. Get alerted when things go silent.</p>
+    <div class="flex gap-3 justify-center">
+        <a href="/register" class="bg-emerald-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-emerald-500 text-lg">Start Free</a>
+        <a href="/pricing" class="border border-gray-700 text-gray-300 px-6 py-3 rounded-lg font-medium hover:border-gray-500 text-lg">Pricing</a>
+    </div>
+    <div class="mt-16 bg-gray-900 rounded-lg p-6 max-w-lg mx-auto text-left font-mono text-sm">
+        <div class="text-gray-500"># Your crontab</div>
+        <div class="text-green-400">*/5 * * * *</div>
+        <div class="text-gray-300">curl -s https://cronmonitor.dev/ping/<span class="text-yellow-400">abc123def456</span></div>
+        <div class="text-gray-600 mt-3"># If the ping doesn't arrive → we alert you</div>
+    </div>
+    <div class="mt-16 grid grid-cols-3 gap-6 text-left">
+        <div class="bg-gray-900 p-5 rounded-lg">
+            <div class="text-2xl mb-2">🔔</div>
+            <h3 class="font-semibold mb-1">Missed Ping Alerts</h3>
+            <p class="text-gray-400 text-sm">Email you the moment a cron job goes silent. Customizable grace periods.</p>
+        </div>
+        <div class="bg-gray-900 p-5 rounded-lg">
+            <div class="text-2xl mb-2">📊</div>
+            <h3 class="font-semibold mb-1">Dashboard + History</h3>
+            <p class="text-gray-400 text-sm">See all your monitors at a glance. Ping history, uptime, and trends.</p>
+        </div>
+        <div class="bg-gray-900 p-5 rounded-lg">
+            <div class="text-2xl mb-2">💸</div>
+            <h3 class="font-semibold mb-1">$7/mo, Not $99/mo</h3>
+            <p class="text-gray-400 text-sm">50 monitors free tier. Pro plans with webhooks and team access starting at $19/mo.</p>
+        </div>
+    </div>
+</div>
+{% endblock %}
