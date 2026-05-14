@@ -5,7 +5,7 @@ Open-source cron job and scheduled task monitoring. Ping-based. No agents. No bl
 ## Quick Start (Self-Hosted)
 
 ```bash
-git clone https://github.com/cronmonitor-dev/cronmonitor.git
+git clone https://github.com/ccw295485892-cell/cronmonitor.git
 cd cronmonitor/backend
 pip install -r requirements.txt
 cp .env.example .env
